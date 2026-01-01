@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Font Awesome -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<title>Admin Panel | Kashur Shawl</title>
+
+<style>
+:root {
+  --glass-bg: #081830BF;
+  --blur: blur(14px);
+  --heading-text: #ffffff;
+  --body-text: #dfe0f0;
+  --accent: #ffffff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: #020617;
+  color: var(--heading-text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  padding: 0 30px;
+
+  background: var(--glass-bg);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1000;
+}
+
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--heading-text);
+}
+
+.logo img {
+  height :65px;
+  width:100px ;
+  object-fit: cover;
+}
+
+/* Nav links */
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  font-size: 12px;
+  letter-spacing: 1.5p;
+  font-family: 'Playfair Display', serif;
+  color: var(--body-text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+/* Underline animation */
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0%;
+  height: 2px;
+  background: var(--accent);
+  transition: width 0.35s ease;
+}
+
+.nav-links a:hover {
+  color: var(--accent);
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+/* Hamburger */
+.menu-btn {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.menu-btn span {
+  width: 26px;
+  height: 2px;
+  background: var(--heading-text);
+  transition: 0.4s;
+}
+
+/* Hamburger animation */
+.menu-btn.active span:nth-child(1) {
+  transform: rotate(45deg) translate(6px, 6px);
+}
+.menu-btn.active span:nth-child(2) {
+  opacity: 0;
+}
+.menu-btn.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* PANEL */
+.panel {
+  width: 100%;
+  max-width: 420px;
+  margin-top: 50px;
+  padding-top: 40px;
+}
+
+/* SECTIONS */
+.section {
+  background: var(--glass-bg);
+  backdrop-filter: var(--blur);
+  margin: 26px 20px;
+  padding: 22px;
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+}
+
+.section h3 {
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+
+.section p {
+  font-size: 13px;
+  color: var(--body-text);
+  margin-bottom: 14px;
+}
+
+.section button {
+  background: var(--accent);
+  color: #020617;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* ---------- MODAL ---------- */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(2,6,23,0.9);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-box {
+  width: 90%;
+  max-width: 360px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--blur);
+  border-radius: 18px;
+  padding: 24px;
+  animation: fadeUp 0.4s ease;
+}
+
+.modal-box h3 {
+  margin-bottom: 20px;
+}
+
+/* INPUTS */
+.modal-box input {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: transparent;
+  color: var(--heading-text);
+  outline: none;
+  font-size: 14px;
+}
+
+.modal-box input::placeholder {
+  color: var(--body-text);
+  opacity: 0.6;
+}
+
+/* MODAL BUTTONS */
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.modal-actions button {
+  flex: 1;
+  padding: 11px;
+  border-radius: 10px;
+  font-size: 13px;
+  border: none;
+  cursor: pointer;
+}
+
+.add-btn {
+  background: var(--accent);
+  color: #020617;
+}
+
+.cancel-btn {
+  background: rgba(203, 44, 44, 1);
+  color: var(--heading-text);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+/* ALERT */
+.alert {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--blur);
+  padding: 14px 18px;
+  border-radius: 12px;
+  display: none;
+  z-index: 1000;
+}
+
+.alert.show {
+  display: block;
+}
+
+/* ANIMATION */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.footer {
+  margin-top: 120px;
+  width: 100%;
+  background: var(--glass-bg);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: auto;
+  padding: 60px 30px;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+/* Footer headings */
+.footer-col h3,
+.footer-col h4 {
+  color: var(--heading-text);
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+.footer-logo img {
+  height :90px;
+  width:100px ;
+  object-fit: cover;
+}
+
+/* Footer text */
+.footer-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--body-text);
+}
+
+/* Footer links */
+.footer-links {
+  list-style: none;
+}
+
+.footer-links li {
+  margin-bottom: 10px;
+}
+
+.footer-links a {
+  text-decoration: none;
+  font-size: 12px;
+  color: var(--body-text);
+  transition: 0.3s;
+}
+
+.footer-links a:hover {
+  color: var(--accent);
+  padding-left: 4px;
+}
+
+/* Social icons */
+.footer-social {
+  display: flex;
+  gap: 14px;
+}
+
+.footer-social a {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--heading-text);
+  transition: 0.35s ease;
+}
+
+.footer-social a:hover {
+  background: var(--accent);
+  color: #020617;
+  transform: translateY(-4px);
+}
+
+/* Footer bottom */
+.footer-bottom {
+  text-align: center;
+  padding: 14px;
+  font-size: 13px;
+  color: var(--body-text);
+  background: rgba(0, 0, 0, 0.25);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 768px) {
+
+  /* Mobile menu button */
+  .menu-btn {
+    display: flex;
+  }
+  
+  .navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  padding: 0 ;
+
+  background: var(--glass-bg);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1000;
+}
+
+  /* Mobile nav */
+  .nav-links {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+
+    background: #081830;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    flex-direction: column;
+    align-items: flex-start;
+
+    padding: 12px 24px;
+    gap: 6px;
+
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+
+    transform: translateY(-10px);
+    transition:
+      max-height 0.45s ease,
+      opacity 0.35s ease,
+      transform 0.45s ease;
+  }
+
+  .nav-links.active {
+    max-height: 320px;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .nav-links li {
+    width: 100%;
+  }
+
+  .nav-links a {
+    width: 100%;
+    padding: 14px 12px;
+    font-size: 16px;
+  }
+
+  .nav-links a:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  /* Footer */
+  .footer-inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .footer-social {
+    justify-content: center;
+  }
+  
+
+}
+
+</style>
+</head>
+
+<body>
+  
+<nav class="navbar">
+  <div class="logo">
+    <img src="/nav-logo.png" alt="nav" />
+  </div>
+  
+  <ul class="nav-links" id="navLinks">
+    <li><a href="/index.html"><i class="fa fa-house"></i> Home</a></li>
+    <li><a href="/collection.html"><i class="fa fa-user"></i>Collection</a></li>
+    <li><a href="faqs.html"><i class="fa fa-layer-group"></i>FAQs</a></li>
+    <li><a href="contact.html"><i class="fa fa-envelope"></i>Contact</a></li>
+  </ul>
+  
+  <div class="menu-btn" id="menuBtn">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</nav>
+
+<div class="panel">
+
+  <!-- PRODUCTS -->
+  <div class="section">
+    <h3>Add Shawl</h3>
+    <p>Upload image and enter name,price</p>
+    <button onclick="openModal()">Add Shawl</button>
+  </div>
+
+  <!-- ORDERS -->
+  <div class="section">
+    <h3>Edit Shawl</h3>
+    <p>View added shawls and edit or delete</p>
+   <a href="/manage-shawl.html"><button>View Shawls</button></a> 
+  </div>
+
+</div>
+
+<!-- ADD PRODUCT MODAL -->
+<div id="productModal" class="modal">
+  <div class="modal-box">
+    <h3>Add New</h3>
+
+    <input type="file" id="image">
+    <input type="text" id="name" placeholder="Shawl Name">
+    <input type="number" id="price" placeholder="Price">
+
+    <div class="modal-actions">
+      <button class="add-btn" onclick="addProduct()">Add</button>
+      <button class="cancel-btn" onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ALERT -->
+<div id="alert" class="alert"></div>
+
+<footer class="footer">
+  <div class="footer-inner">
+
+    <!-- Brand -->
+    <div class="footer-col">
+      <div class="footer-logo">
+        <img src="/nav-logo.png" alt="footer logo" />
+      </div>
+      <p class="footer-text">
+        Wrapped in warmth, woven with tradition.
+Authentic Kashmiri shawls that never go out of style.
+      </p>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul class="footer-links">
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/collection.html">Collection</a></li>
+        <li><a href="/faqs.html">FAQs</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+    </div>
+
+    <!-- Social -->
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <div class="footer-social">
+        <a href="https://wa.link/e87e01"><i class="fab fa-whatsapp"></i></a>
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="https://www.instagram.com/farhat_wani_06?igsh=MWlkYTV2NnhubWR6cw=="><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-x-twitter"></i></a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    © 2025 Kashur shawl. All rights reserved.
+  </div>
+</footer>
+
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+/* 🔥 FIREBASE CONFIG */
+const firebaseConfig = {
+  apiKey: "AIzaSyBj3xo_prL6jkqXb4tTvJTu6yp2hsutuCQ",
+  authDomain: "kashur-shawl.firebaseapp.com",
+  projectId: "kashur-shawl",
+  storageBucket: "kashur-shawl.appspot.com",
+  messagingSenderId: "491337394878",
+  appId: "1:491337394878:web:511efd29a93fd2608e4cef"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+/* 🌤️ CLOUDINARY */
+const CLOUD_NAME = "dqlbh2kn1";
+const UPLOAD_PRESET = "kashur shawl";
+
+/* UI ELEMENTS */
+const modal = document.getElementById("productModal");
+const alertBox = document.getElementById("alert");
+
+/* MODAL */
+window.openModal = () => {
+  modal.classList.add("active");
+};
+
+window.closeModal = () => {
+  modal.classList.remove("active");
+};
+
+/* ALERT */
+function showAlert(msg) {
+  alertBox.textContent = msg;
+  alertBox.classList.add("show");
+  setTimeout(() => alertBox.classList.remove("show"), 3000);
+}
+
+/* ADD PRODUCT */
+window.addProduct = async () => {
+  const name = document.getElementById("name").value.trim();
+  const price = document.getElementById("price").value.trim();
+  const file = document.getElementById("image").files[0];
+
+  if (!name || !price || !file) {
+    showAlert("Please fill all fields");
+    return;
+  }
+
+  try {
+    showAlert("Uploading image...");
+
+    /* Upload to Cloudinary */
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", UPLOAD_PRESET);
+
+    const uploadRes = await fetch(
+      `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+      { method: "POST", body: formData }
+    );
+
+    const uploadData = await uploadRes.json();
+
+    if (!uploadData.secure_url) {
+      showAlert("Image upload failed");
+      return;
+    }
+
+    /* Save to Firestore */
+    await addDoc(collection(db, "products"), {
+      name: name,
+      price: Number(price),
+      image: uploadData.secure_url,
+      createdAt: serverTimestamp()
+    });
+
+    showAlert("Product added successfully");
+    closeModal();
+
+    /* RESET FORM */
+    document.getElementById("name").value = "";
+    document.getElementById("price").value = "";
+    document.getElementById("image").value = "";
+
+  } catch (err) {
+    console.error(err);
+    showAlert("Error adding product");
+  }
+};
+
+/* NAV */
+window.go = (page) => {
+  window.location.href = page;
+};
+
+</script>
+<script src="script.js" type="text/javascript" charset="utf-8"></script>
+
+</body>
+</html>

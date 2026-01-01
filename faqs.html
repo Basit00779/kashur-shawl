@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FAQs | Kashur Shawl</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    :root {
+      --glass-bg: #081830BF;
+      --blur: blur(14px);
+      --heading-text: #ffffff;
+      --body-text: #dfe0f0;
+      --accent: #ffffff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background: #020617;
+      color: var(--heading-text);
+      min-height: 100vh;
+    }
+
+    /* PAGE */
+    .faq-page {
+      max-width: 900px;
+      margin: 60px auto 0 auto;
+      padding: 30px 20px;
+    }
+
+    /* HEADER */
+    .faq-header {
+      margin-bottom: 40px;
+    }
+
+    .faq-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 30px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .faq-header h2::after {
+      content: "";
+      display: block;
+      width: 64px;
+      height: 2px;
+      background: linear-gradient(to right, var(--accent), transparent);
+      margin-top: 12px;
+    }
+
+    .faq-header p {
+      margin-top: 10px;
+      font-size: 15px;
+      color: var(--body-text);
+      max-width: 520px;
+    }
+
+    /* FAQ ITEM */
+    .faq-item {
+      background: var(--glass-bg);
+      backdrop-filter: var(--blur);
+      border-radius: 18px;
+      margin-bottom: 16px;
+      overflow: hidden;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .faq-item:hover {
+      box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+    }
+
+    .faq-question {
+      padding: 18px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+
+    .faq-question h3 {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--heading-text);
+      max-width: 90%;
+    }
+
+    .faq-question i {
+      font-size: 16px;
+      transition: transform 0.3s ease;
+    }
+
+    .faq-item.active .faq-question i {
+      transform: rotate(180deg);
+    }
+
+    /* ANSWER */
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+
+    .faq-answer p {
+      padding: 0 22px 20px;
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--body-text);
+    }
+
+    .faq-item.active .faq-answer {
+      max-height: 300px;
+    }
+
+    /* MOBILE */
+    @media (max-width: 600px) {
+      .faq-question h3 {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar">
+  <div class="logo">
+    <img src="/nav-logo.png" alt="nav" />
+  </div>
+
+  <ul class="nav-links" id="navLinks">
+    <li><a href="/index.html"><i class="fa fa-house"></i> Home</a></li>
+    <li><a href="/collection.html"><i class="fa fa-user"></i>Collection</a></li>
+    <li><a href="faqs.html"><i class="fa fa-layer-group"></i>FAQs</a></li>
+    <li><a href="contact.html"><i class="fa fa-envelope"></i>Contact</a></li>
+  </ul>
+
+  <div class="menu-btn" id="menuBtn">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</nav>
+
+  <div class="faq-page">
+
+    <!-- HEADER -->
+    <div class="faq-header">
+      <h2>Frequently Asked Questions</h2>
+      <p>
+        Find answers to common questions about our handcrafted Kashmiri shawls,
+        orders, delivery, and care.
+      </p>
+    </div>
+
+    <!-- FAQ LIST -->
+
+<div class="faq-item">
+  <div class="faq-question">
+    <h3>What materials are used in your shawls?</h3>
+    <i class="fa-solid fa-chevron-down"></i>
+  </div>
+  <div class="faq-answer">
+    <p>
+      Our shawls are made using premium materials such as pure Pashmina,
+      wool, and fine blends, sourced and crafted traditionally by Kashmiri artisans.
+    </p>
+  </div>
+</div>
+
+<div class="faq-item">
+  <div class="faq-question">
+    <h3>Do you ship all over India?</h3>
+    <i class="fa-solid fa-chevron-down"></i>
+  </div>
+  <div class="faq-answer">
+    <p>
+      Yes, we deliver across India. Shipping timelines may vary depending on
+      your city or region.
+    </p>
+  </div>
+</div>
+
+<div class="faq-item">
+  <div class="faq-question">
+    <h3>Do you offer international shipping?</h3>
+    <i class="fa-solid fa-chevron-down"></i>
+  </div>
+  <div class="faq-answer">
+    <p>
+      International shipping is available on request. Please contact us via
+      WhatsApp to check availability and shipping charges.
+    </p>
+  </div>
+</div>
+
+<div class="faq-item">
+  <div class="faq-question">
+    <h3>How can I place an order?</h3>
+    <i class="fa-solid fa-chevron-down"></i>
+  </div>
+  <div class="faq-answer">
+    <p>
+      You can place an order by clicking the Buy or WhatsApp button on the
+      product page and chatting with our team directly.
+    </p>
+  </div>
+</div>
+
+<div class="faq-item">
+  <div class="faq-question">
+    <h3>Are the product images real?</h3>
+    <i class="fa-solid fa-chevron-down"></i>
+  </div>
+  <div class="faq-answer">
+    <p>
+      Yes. All product images are of actual shawls. Minor color variations may
+      occur due to lighting or screen differences.
+    </p>
+  </div>
+</div>
+
+<div class="faq-item">
+  <div class="faq-question">
+    <h3>Can I return or exchange a shawl?</h3>
+    <i class="fa-solid fa-chevron-down"></i>
+  </div>
+  <div class="faq-answer">
+    <p>
+      Returns or exchanges are accepted only in case of defects or damage.
+      Please contact us within 24 hours of delivery.
+    </p>
+  </div>
+</div>
+
+<div class="faq-item">
+  <div class="faq-question">
+    <h3>Do you offer bulk or wholesale orders?</h3>
+    <i class="fa-solid fa-chevron-down"></i>
+  </div>
+  <div class="faq-answer">
+    <p>
+      Yes, we accept bulk and wholesale orders for boutiques and events.
+      Contact us directly to discuss pricing and customization.
+    </p>
+  </div>
+</div>
+
+<div class="faq-item">
+  <div class="faq-question">
+    <h3>How do I know my shawl is authentic?</h3>
+    <i class="fa-solid fa-chevron-down"></i>
+  </div>
+  <div class="faq-answer">
+    <p>
+      Each shawl reflects traditional craftsmanship, hand-finishing, and
+      authentic weaving techniques unique to Kashmir.
+    </p>
+  </div>
+</div>
+
+<div class="faq-item">
+  <div class="faq-question">
+    <h3>How can I contact customer support?</h3>
+    <i class="fa-solid fa-chevron-down"></i>
+  </div>
+  <div class="faq-answer">
+    <p>
+      You can contact us via WhatsApp, phone, or through our Contact page.
+      We usually respond within a few hours.
+    </p>
+  </div>
+</div>
+
+  </div>
+  
+  <footer class="footer">
+  <div class="footer-inner">
+
+    <!-- Brand -->
+    <div class="footer-col">
+      <div class="footer-logo">
+        <img src="/nav-logo.png" alt="footer logo" />
+      </div>
+      <p class="footer-text">
+        Wrapped in warmth, woven with tradition.
+Authentic Kashmiri shawls that never go out of style.
+      </p>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul class="footer-links">
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/collection.html">Collection</a></li>
+        <li><a href="/faqs.html">FAQs</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+    </div>
+
+    <!-- Social -->
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <div class="footer-social">
+        <a href="https://wa.link/e87e01"><i class="fab fa-whatsapp"></i></a>
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="https://www.instagram.com/farhat_wani_06?igsh=MWlkYTV2NnhubWR6cw=="><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-x-twitter"></i></a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    © 2025 Kashur shawl. All rights reserved.
+  </div>
+</footer>
+
+<script src="script.js"></script>
+
+  <!-- JS -->
+  <script>
+    const faqItems = document.querySelectorAll(".faq-item");
+
+    faqItems.forEach(item => {
+      item.querySelector(".faq-question").addEventListener("click", () => {
+        item.classList.toggle("active");
+      });
+    });
+  </script>
+
+</body>
+</html>

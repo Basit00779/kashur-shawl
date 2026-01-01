@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Kashur Shawl – Collection</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Collection CSS -->
+  <link rel="stylesheet" href="collection.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  
+<nav class="navbar">
+  <div class="logo">
+    <img src="/nav-logo.png" alt="nav" />
+  </div>
+  
+  <ul class="nav-links" id="navLinks">
+    <li><a href="/index.html"><i class="fa fa-house"></i> Home</a></li>
+    <li><a href="/collection.html"><i class="fa fa-user"></i>Collection</a></li>
+    <li><a href="faqs.html"><i class="fa fa-layer-group"></i>FAQs</a></li>
+    <li><a href="contact.html"><i class="fa fa-envelope"></i>Contact</a></li>
+  </ul>
+  
+  <div class="menu-btn" id="menuBtn">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</nav>
+
+<!-- LOADER -->
+<div id="pageLoader" class="page-loader">
+  <div class="loader"></div>
+</div>
+
+<!-- COLLECTION -->
+<section class="collection-section">
+  <div class="search-box">
+    <i class="fa fa-search"></i>
+    <input id="searchInput" type="text" placeholder="Search shawls...">
+  </div>
+
+  <div class="collection-grid" id="productsGrid"></div>
+</section>
+
+<!-- IMAGE MODAL -->
+<div id="imageModal" class="image-modal">
+  <span class="close-modal">&times;</span>
+  <img id="modalImage" class="modal-image">
+</div>
+
+<footer class="footer">
+  <div class="footer-inner">
+
+    <!-- Brand -->
+    <div class="footer-col">
+      <div class="footer-logo">
+        <img src="/nav-logo.png" alt="footer logo" />
+      </div>
+      <p class="footer-text">
+        Wrapped in warmth, woven with tradition.
+Authentic Kashmiri shawls that never go out of style.
+      </p>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul class="footer-links">
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/collection.html">Collection</a></li>
+        <li><a href="/faqs.html">FAQs</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+    </div>
+
+    <!-- Social -->
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <div class="footer-social">
+        <a href="https://wa.link/e87e01"><i class="fab fa-whatsapp"></i></a>
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="https://www.instagram.com/farhat_wani_06?igsh=MWlkYTV2NnhubWR6cw=="><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-x-twitter"></i></a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    © 2025 Kashur shawl. All rights reserved.
+  </div>
+</footer>
+
+<!-- ================= SCRIPT ================= -->
+<script src="/kashmiri shawl/script.js"></script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  
+
+  /* FIREBASE */
+  const firebaseConfig = {
+    apiKey: "AIzaSyBj3xo_prL6jkqXb4tTvJTu6yp2hsutuCQ",
+    authDomain: "kashur-shawl.firebaseapp.com",
+    projectId: "kashur-shawl",
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  /* ELEMENTS */
+  const grid = document.getElementById("productsGrid");
+  const searchInput = document.getElementById("searchInput");
+  const loader = document.getElementById("pageLoader");
+  const modal = document.getElementById("imageModal");
+  const modalImg = document.getElementById("modalImage");
+  const closeModal = document.querySelector(".close-modal");
+
+  let products = [];
+
+import {
+  getFirestore,
+  collection,
+  onSnapshot,
+  query,
+  orderBy
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const q = query(
+  collection(db, "products"),
+  orderBy("createdAt", "desc")
+);
+
+onSnapshot(q, snap => {
+  products = snap.docs.map(doc => doc.data());
+  render(products);
+  loader.classList.add("hidden");
+});
+
+  /* RENDER */
+  function render(list) {
+    grid.innerHTML = "";
+
+    if (!list.length) {
+      grid.innerHTML = `
+        <p style="color:#9ca3af;text-align:center;margin-top:40px">
+          No products found
+        </p>`;
+      return;
+    }
+
+    list.forEach(p => {
+      grid.innerHTML += `
+        <div class="collection-card">
+          <img src="${p.image || 'https://via.placeholder.com/400'}" alt="${p.name || 'Shawl'}">
+          <div class="card-content">
+            <h3>${p.name || "Unnamed Shawl"}</h3>
+            <p class="price">₹${p.price ? Number(p.price).toLocaleString() : "N/A"}</p>
+            <div class="card-buttons">
+              <a class="btn buy-btn" href="https://wa.link/e87e01"><i class="fa-solid fa-bag-shopping"></i> &nbsp Buy Now</a>
+              <a class="btn contact-btn"
+                 href="https://wa.link/e87e01"><i class="fa-brands fa-whatsapp" style="color:#fff"></i> &nbsp 
+                 WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  /* SEARCH */
+  searchInput.addEventListener("input", e => {
+    const value = e.target.value.toLowerCase();
+    render(
+      products.filter(p =>
+        (p.name || "").toLowerCase().includes(value)
+      )
+    );
+  });
+
+  /* IMAGE MODAL */
+  document.addEventListener("click", e => {
+    if (e.target.matches(".collection-card img")) {
+      modalImg.src = e.target.src;
+      modal.classList.add("active");
+      document.body.style.overflow = "hidden";
+    }
+  });
+
+  closeModal.addEventListener("click", () => {
+    modal.classList.remove("active");
+    modalImg.src = "";
+    document.body.style.overflow = "";
+  });
+
+  modal.addEventListener("click", e => {
+    if (e.target === modal) {
+      modal.classList.remove("active");
+      document.body.style.overflow = "";
+    }
+  });
+</script>
+ <script src="script.js" type="text/javascript" charset="utf-8"></script>
+
+</body>
+</html>
