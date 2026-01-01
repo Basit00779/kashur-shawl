@@ -5,3 +5,8 @@ menuBtn.addEventListener("click", () => {
   menuBtn.classList.toggle("active");
   navLinks.classList.toggle("active");
 });
+
+  window.addEventListener("load", () => {
+    document.querySelector(".page-loader").classList.add("hidden");
+  });
+
